@@ -1,18 +1,19 @@
 import "./App.css";
 import styled from "styled-components";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Header from "./components/Header.jsx";
+import Header from "./components/Header";
+import HomePage from "./pages/HomePage";
 
 function App() {
     return (
-        <StyledContent>
-            <Header />
-            <BrowserRouter>
+        <BrowserRouter>
+            <StyledContent>
+                <Header />
                 <Routes>
-                    <Route></Route>
+                    <Route path="/" element={<HomePage />} />
                 </Routes>
-            </BrowserRouter>
-        </StyledContent>
+            </StyledContent>
+        </BrowserRouter>
     );
 }
 export default App;

@@ -1,9 +1,13 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const Header = () => {
     return (
         <Container>
-            <LogoDiv>Airbnb</LogoDiv>
+            <Link to="/">
+                <LogoDiv>Airbnb</LogoDiv>
+            </Link>
+            {/* 메타마스크 로그인 진행 */}
             <LoginDiv>
                 <img
                     src={`${process.env.PUBLIC_URL}/assets/icons/profil.svg`}
@@ -20,10 +24,10 @@ export default Header;
 const Container = styled.div`
     width: calc(100% - 340px); /* StyledContent의 width에 맞게 설정 */
     height: 80px;
-    padding: 20px 0px;
+    padding: 15px 0px;
 
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
 
     gap: 20px;
