@@ -1,11 +1,12 @@
 import "./App.css";
 import styled from "styled-components";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Header from "./components/Header.jsx";
 
 function App() {
     return (
         <StyledContent>
-            안녕~!~~!~!~
+            <Header />
             <BrowserRouter>
                 <Routes>
                     <Route></Route>
@@ -17,15 +18,20 @@ function App() {
 export default App;
 
 const StyledContent = styled.div`
-    /* width: 100%; */
-    margin: 0px 170px 0px 170px;
+    width: calc(100% - 340px); /* 화면 너비에서 좌우 margin을 뺀 값으로 설정 */
+    margin: 0px 170px;
     height: 100vh;
     background-color: #a2a2a2;
 
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    /* justify-content: center; */
+    /* align-items: center; */
 
     overflow-y: hidden;
     overflow-x: hidden;
+
+    color: #000;
+    text-align: center;
+    font-family: Roboto;
 `;
