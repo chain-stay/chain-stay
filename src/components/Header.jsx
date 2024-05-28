@@ -23,8 +23,8 @@ export default Header;
 
 const Container = styled.div`
     width: calc(100% - 340px); /* StyledContent의 width에 맞게 설정 */
+    /* padding: 15px 0px; */
     height: 80px;
-    padding: 15px 0px;
 
     display: flex;
     justify-content: space-between;
@@ -33,6 +33,16 @@ const Container = styled.div`
     gap: 20px;
     position: absolute;
     background: #6b0000;
+    position: fixed;
+
+    /* 폰트 스타일 */
+    color: #000;
+    text-align: center;
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 160%; /* 25.6px */
 `;
 
 const LogoDiv = styled.div`
@@ -43,14 +53,14 @@ const LogoDiv = styled.div`
     align-items: start;
 
     flex: 1 0 0;
-    color: #000;
-    font-family: Roboto;
     font-size: 28px;
-    font-style: normal;
+    color: #000;
     font-weight: 700;
     line-height: 36px;
 `;
 const LoginDiv = styled.div`
+    cursor: pointer;
+
     width: 174px;
     height: 50px;
     padding: 6px 12px;
@@ -64,11 +74,7 @@ const LoginDiv = styled.div`
     background: #f2f2f2;
 
     //font 스타일 설정
-    color: #000;
-    text-align: center;
-    font-family: Roboto;
     font-size: 16px;
-    font-style: normal;
     font-weight: 400;
     line-height: 160%; /* 25.6px */
 `;
