@@ -1,18 +1,20 @@
 import styled from "styled-components";
 
-const Modal = () => {
+const Modal = ({ iconUrl, title, subTitle, buttonTexts, buttonColors }) => {
     return (
         <Background>
             <Container>
-                <Icon />
+                <Icon iconUrl={iconUrl} />
                 <Text>
-                    <Title>Login / Sign Up</Title>
-                    <SubTitle>Kindly sign up or log in to continue.</SubTitle>
+                    <Title>{title}</Title>
+                    <SubTitle>{subTitle}</SubTitle>
                 </Text>
-
                 <ButtonsContainer>
-                    <Button>안녕</Button>
-                    <Button>안녕</Button>
+                    {buttonTexts.map((text, index) => (
+                        <Button key={index} color={buttonColors[index]}>
+                            {text}
+                        </Button>
+                    ))}
                 </ButtonsContainer>
             </Container>
         </Background>
@@ -36,7 +38,7 @@ const Background = styled.div`
 
 const Container = styled.div`
     background: #fff;
-    padding: 20px 16px 14px 16px;
+    padding: 20px 16px 20px 16px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -49,30 +51,33 @@ const Container = styled.div`
 const Icon = styled.div`
     height: 48px;
     width: 48px;
-    background-image: url("/assets/icons/error.svg");
+    background-image: url(${(props) => props.iconUrl});
+    background-size: cover;
+    background-position: center;
 `;
+
 const Text = styled.div`
     color: #111827;
     display: flex;
     flex-direction: column;
     margin: auto;
-    /* gap: 39px; */
+    gap: 35px;
 `;
 
-const Title = styled.h1`
+const Title = styled.div`
     font-size: 24px;
-    font-weight: 700;
+    font-weight: 800;
     line-height: 24px; /* 100% */
 `;
 
 const SubTitle = styled.h4`
     color: #6b7280;
-
     text-align: center;
     font-size: 14px;
     font-weight: 400;
     line-height: 20px; /* 142.857% */
 `;
+
 const ButtonsContainer = styled.div`
     display: flex;
     flex-direction: column;
@@ -82,18 +87,14 @@ const ButtonsContainer = styled.div`
 const Button = styled.div`
     width: 226px;
     height: 42px;
-    /* padding: 11px 71.28px 12px 71.27px; */
     display: flex;
     justify-content: center;
     align-items: center;
     flex-shrink: 0;
     border-radius: 6px;
-    background: #dc2626;
+    background: ${(props) => props.color};
     cursor: pointer;
-    /* box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05); */
-
     color: #fff;
-
     text-align: center;
     font-size: 16px;
     font-weight: 600;
