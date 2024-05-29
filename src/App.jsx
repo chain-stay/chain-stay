@@ -5,20 +5,24 @@ import Header from "./components/Header";
 import HomePage from "./pages/HomePage";
 import DetailPage from "./pages/DetailPage";
 import LoginModal from "./components/Modal";
-
+import { createContext, useState } from "react";
+export const AppContext = createContext();
 function App() {
+    const [account, setAccount] = useState();
     return (
-        <BrowserRouter>
-            <StyledContent>
-                <Header />
-                <Routes>
-                    <Route path="/" element={<HomePage />} />
-                    <Route path="/detailPage" element={<DetailPage />} />
-                    <Route path="/detailPage" element={<DetailPage />} />
-                    <Route path="/pre" element={<LoginModal />} />
-                </Routes>
-            </StyledContent>
-        </BrowserRouter>
+        <AppContext.Provider value={{ account, setAccount }}>
+            <BrowserRouter>
+                <StyledContent>
+                    <Header />
+                    <Routes>
+                        <Route path="/" element={<HomePage />} />
+                        <Route path="/detailPage" element={<DetailPage />} />
+                        <Route path="/detailPage" element={<DetailPage />} />
+                        <Route path="/pre" element={<LoginModal />} />
+                    </Routes>
+                </StyledContent>
+            </BrowserRouter>
+        </AppContext.Provider>
     );
 }
 export default App;

@@ -1,6 +1,13 @@
 import styled from "styled-components";
 
-const Modal = ({ iconUrl, title, subTitle, buttonTexts, buttonColors }) => {
+const Modal = ({
+    iconUrl,
+    title,
+    subTitle,
+    buttonTexts,
+    buttonColors,
+    buttonTextColors,
+}) => {
     return (
         <Background>
             <Container>
@@ -11,7 +18,11 @@ const Modal = ({ iconUrl, title, subTitle, buttonTexts, buttonColors }) => {
                 </Text>
                 <ButtonsContainer>
                     {buttonTexts.map((text, index) => (
-                        <Button key={index} color={buttonColors[index]}>
+                        <Button
+                            key={index}
+                            color={buttonColors[index]}
+                            textColor={buttonTextColors[index]} // textColor prop 전달
+                        >
                             {text}
                         </Button>
                     ))}
@@ -93,8 +104,10 @@ const Button = styled.div`
     flex-shrink: 0;
     border-radius: 6px;
     background: ${(props) => props.color};
+    color: ${(props) => props.textColor};
     cursor: pointer;
-    color: #fff;
+    border: 1px solid #d1d5db;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
     text-align: center;
     font-size: 16px;
     font-weight: 600;

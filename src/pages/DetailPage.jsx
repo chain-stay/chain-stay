@@ -22,14 +22,17 @@ const DetailPage = () => {
 
                     <ReserveSubTitle>Guests</ReserveSubTitle>
                     <Input type="number" min="1" defaultValue="1" />
+
+                    {/* 조건 설정 후 modal 띄우기 */}
                     <Button>Reserve Now</Button>
 
                     <Modal
                         iconUrl="/assets/icons/error.svg"
                         title="Login / Sign Up"
                         subTitle="Kindly sign up or log in to continue."
-                        buttonTexts={["Button 1", "Button 2"]}
-                        buttonColors={["#dc2626", "#2563eb"]}
+                        buttonTexts={["Login/ SignUp", "Cancel"]}
+                        buttonColors={["#dc2626", "#FFF"]}
+                        buttonTextColors={["#FFF", "#black"]}
                     />
                 </OrderContainer>
             </DetailContainer>
