@@ -36,13 +36,14 @@ const Container = styled.div`
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    background: #6b0000;
+    /* background: #6b0000; */
+    background-color: white;
 
     /* 폰트 스타일 */
     color: #000;
     text-align: center;
-    font-family: Roboto;
-    font-size: 16px;
+    font-family: Nunito;
+    /* font-size: 20px; */
     font-style: normal;
     font-weight: 400;
     line-height: 160%; /* 25.6px */
@@ -71,7 +72,7 @@ const LoginDiv = styled.div`
     background: #f2f2f2;
 
     /* 폰트 스타일 설정 */
-    font-size: 16px;
-    font-weight: 400;
+    font-size: 18px;
+    font-weight: 500;
     line-height: 160%; /* 25.6px */
 `;

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const Card = () => {
     const cards = [
@@ -12,17 +13,19 @@ const Card = () => {
 
     return (
         <>
-            <Container>
-                {cards.slice(0, 3).map((card, index) => (
-                    <DetailBox key={index}>
-                        <IMG></IMG>
-                        <CardText>
-                            <Place>{card.place}</Place>
-                            <Price>{card.price}</Price>
-                        </CardText>
-                    </DetailBox>
-                ))}
-            </Container>
+            <Link to="/detailPage">
+                <Container>
+                    {cards.slice(0, 3).map((card, index) => (
+                        <DetailBox key={index}>
+                            <IMG></IMG>
+                            <CardText>
+                                <Place>{card.place}</Place>
+                                <Price>{card.price}</Price>
+                            </CardText>
+                        </DetailBox>
+                    ))}
+                </Container>
+            </Link>
             <Container>
                 {cards.slice(3, 6).map((card, index) => (
                     <DetailBox key={index}>
@@ -44,7 +47,7 @@ const Place = styled.div`
     margin: 12px 12px 0px 12px;
     align-self: stretch;
     color: #000;
-    font-family: Roboto;
+    font-family: Nunito;
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
@@ -61,7 +64,7 @@ const Price = styled.div`
     align-self: stretch;
     color: #000;
     text-align: right;
-    font-family: Roboto;
+    font-family: Nunito;
     font-size: 20px;
     font-style: normal;
     font-weight: 700;

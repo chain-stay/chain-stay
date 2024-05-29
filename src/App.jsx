@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import HomePage from "./pages/HomePage";
+import DetailPage from "./pages/DetailPage";
 
 function App() {
     return (
@@ -11,6 +12,7 @@ function App() {
                 <Header />
                 <Routes>
                     <Route path="/" element={<HomePage />} />
+                    <Route path="/detailPage" element={<DetailPage />} />
                 </Routes>
             </StyledContent>
         </BrowserRouter>
@@ -31,5 +33,6 @@ const StyledContent = styled.div`
 
     color: #000;
     text-align: center;
-    font-family: Roboto;
+    font-family: Nunito;
+    font-style: normal;
 `;
