@@ -13,7 +13,7 @@ const Header = () => {
                     src={`${process.env.PUBLIC_URL}/assets/icons/profil.svg`}
                     alt="ProfilSvg"
                 />
-                <div> SignUp/ Login</div>
+                <div>SignUp/ Login</div>
             </LoginDiv>
         </Container>
     );
@@ -22,18 +22,21 @@ const Header = () => {
 export default Header;
 
 const Container = styled.div`
-    width: calc(100% - 340px); /* StyledContent의 width에 맞게 설정 */
-    /* padding: 15px 0px; */
+    /* width: calc(100% - 340px); 화면 너비에서 좌우 margin을 뺀 값으로 설정 */
+    max-width: 1440px; /* StyledContent의 max-width와 맞춤 */
     height: 80px;
-
+    margin: 0 auto; /* 중앙 정렬 */
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
 
     gap: 20px;
-    position: absolute;
-    background: #6b0000;
     position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #6b0000;
 
     /* 폰트 스타일 */
     color: #000;
@@ -46,18 +49,12 @@ const Container = styled.div`
 `;
 
 const LogoDiv = styled.div`
-    width: 906px;
-    height: 36px;
-
-    display: flex;
-    align-items: start;
-
-    flex: 1 0 0;
     font-size: 28px;
     color: #000;
     font-weight: 700;
     line-height: 36px;
 `;
+
 const LoginDiv = styled.div`
     cursor: pointer;
 
@@ -73,7 +70,7 @@ const LoginDiv = styled.div`
     border-radius: 25px;
     background: #f2f2f2;
 
-    //font 스타일 설정
+    /* 폰트 스타일 설정 */
     font-size: 16px;
     font-weight: 400;
     line-height: 160%; /* 25.6px */

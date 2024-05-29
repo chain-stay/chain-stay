@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Card from "../components/Card";
 
 const HomePage = () => {
     const categoriesData = [
@@ -60,9 +61,11 @@ const HomePage = () => {
                 </div>
             </CategoriesContainer>
             <Title>Discover a variety of accommodations</Title>
+            <Card />
         </Container>
     );
 };
+
 export default HomePage;
 const Title = styled.div`
     display: flex;
@@ -147,6 +150,7 @@ const Banner = styled.div`
     width: 100%;
     height: 336px;
     margin-top: 80px;
+    background-color: #a2a2a2;
 
     display: flex;
     flex-direction: column;
@@ -175,6 +179,6 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
 
-    background-color: #6ec200;
+    /* background-color: #6ec200; */
     color: #fff;
 `;

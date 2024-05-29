@@ -19,19 +19,15 @@ function App() {
 export default App;
 
 const StyledContent = styled.div`
-    /* width: calc(100% - 340px); 화면 너비에서 좌우 margin을 뺀 값으로 설정 */
-    margin: 0px 170px;
-    /* width: 1440px; */
+    margin: 0 calc((100% - 1440px) / 2); /* 좌우 마진을 화면 너비에서 1440px를 뺀 값을 기준으로 설정 */
+    width: 1440px;
     height: 100%;
-    background-color: #a2a2a2;
 
     display: flex;
     flex-direction: column;
-    /* justify-content: center; */
-    /* align-items: center; */
 
-    /* overflow-y: hidden; */
-    /* overflow-x: hidden; */
+    overflow-y: hidden;
+    overflow-x: hidden;
 
     color: #000;
     text-align: center;
