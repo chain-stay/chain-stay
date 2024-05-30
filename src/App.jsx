@@ -5,14 +5,34 @@ import Header from "./components/Header";
 import HomePage from "./pages/HomePage";
 import DetailPage from "./pages/DetailPage";
 import LoginModal from "./components/Modal";
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 export const AppContext = createContext();
+
 function App() {
     const [account, setAccount] = useState();
     const [isOpen, setIsOpen] = useState(false);
 
+    const onClickAccount = async () => {
+        try {
+            const accounts = await window.ethereum.request({
+                method: "eth_requestAccounts",
+            });
+
+            console.log("Accounts fetched:", accounts);
+            setAccount(accounts[0]);
+            setIsOpen(false);
+        } catch (error) {
+            console.error("Error fetching accounts:", error);
+        }
+    };
+    useEffect(() => {
+        console.log("Current account:", account);
+    }, [account]);
+
     return (
-        <AppContext.Provider value={{ account, setAccount, isOpen, setIsOpen }}>
+        <AppContext.Provider
+            value={{ account, setAccount, isOpen, setIsOpen, onClickAccount }}
+        >
             <BrowserRouter>
                 <StyledContent>
                     <Header />

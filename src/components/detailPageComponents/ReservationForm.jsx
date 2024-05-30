@@ -6,12 +6,14 @@ import Modal from "../Modal";
 
 const ReservationForm = () => {
     const { account, isOpen, setIsOpen } = useContext(AppContext);
-    const navigate = useNavigate;
+    const navigate = useNavigate();
 
     const handleClickButton = (e) => {
         e.preventDefault();
 
-        account ? navigate("/") : setIsOpen(true);
+        {
+            account ? navigate(`/`) : setIsOpen(true);
+        }
     };
 
     return (
@@ -19,12 +21,14 @@ const ReservationForm = () => {
             <ReserveTitle>Reservation Details</ReserveTitle>
             <p>Enter your booking information below</p>
             <ReserveSubTitle>₩880,345 / night</ReserveSubTitle>
+
             <ReserveSubTitle>Check-in Date</ReserveSubTitle>
             <Input type="date" />
             <ReserveSubTitle>Check-out Date</ReserveSubTitle>
             <Input type="date" />
             <ReserveSubTitle>Guests</ReserveSubTitle>
             <Input type="number" min="1" defaultValue="1" />
+
             {/* 조건 설정 후 modal 띄우기 */}
             <Button onClick={handleClickButton}>Reserve Now</Button>
             {isOpen && (

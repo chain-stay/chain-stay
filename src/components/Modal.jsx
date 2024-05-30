@@ -1,5 +1,7 @@
+import { useContext } from "react";
 import styled from "styled-components";
-
+import { AppContext } from "../App";
+import { useNavigate } from "react-router";
 const Modal = ({
     iconUrl,
     title,
@@ -8,6 +10,22 @@ const Modal = ({
     buttonColors,
     buttonTextColors,
 }) => {
+    const { setIsOpen, onClickAccount } = useContext(AppContext); // AppContext에서 setIsOpen 가져오기
+
+    const navigate = useNavigate();
+
+    const handleFirstButtonClick = async () => {
+        if (buttonTexts[0] === "Login/ SignUp") {
+            await onClickAccount();
+        } else if (buttonTexts[0] === "Go to MyPage") {
+            navigate("/");
+        }
+        setIsOpen(false);
+    };
+    const handleCancelClick = () => {
+        setIsOpen(false);
+    };
+
     return (
         <Background>
             <Container>
@@ -17,15 +35,20 @@ const Modal = ({
                     <SubTitle>{subTitle}</SubTitle>
                 </Text>
                 <ButtonsContainer>
-                    {buttonTexts.map((text, index) => (
-                        <Button
-                            key={index}
-                            color={buttonColors[index]}
-                            textColor={buttonTextColors[index]} // textColor prop 전달
-                        >
-                            {text}
-                        </Button>
-                    ))}
+                    <Button
+                        color={buttonColors[0]}
+                        textColor={buttonTextColors[0]}
+                        onClick={handleFirstButtonClick} // Login/SignUp 버튼에 동작 할당
+                    >
+                        {buttonTexts[0]}
+                    </Button>
+                    <Button
+                        color={buttonColors[1]}
+                        textColor={buttonTextColors[1]}
+                        onClick={handleCancelClick} // Cancel 버튼에 동작 할당
+                    >
+                        {buttonTexts[1]}
+                    </Button>
                 </ButtonsContainer>
             </Container>
         </Background>
@@ -95,7 +118,7 @@ const ButtonsContainer = styled.div`
     gap: 10px;
 `;
 
-const Button = styled.div`
+const Button = styled.button`
     width: 226px;
     height: 42px;
     display: flex;

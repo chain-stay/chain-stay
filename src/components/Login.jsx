@@ -3,23 +3,8 @@ import styled from "styled-components";
 import { AppContext } from "../App";
 
 const Login = () => {
-    const { account, setAccount } = useContext(AppContext);
-
-    const onClickAccount = async () => {
-        try {
-            const accounts = await window.ethereum.request({
-                method: "eth_requestAccounts",
-            });
-
-            console.log("Accounts fetched:", accounts);
-            setAccount(accounts[0]);
-        } catch (error) {
-            console.error("Error fetching accounts:", error);
-        }
-    };
-    useEffect(() => {
-        console.log("Current account:", account);
-    }, [account]);
+    const { account, setAccount, setIsOpen, onClickAccount } =
+        useContext(AppContext);
 
     return (
         <LoginDiv onClick={onClickAccount}>
