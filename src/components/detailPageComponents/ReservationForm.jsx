@@ -1,6 +1,19 @@
+import { useContext, useState } from "react";
 import styled from "styled-components";
+import { AppContext } from "../../App";
+import { useNavigate } from "react-router";
+import Modal from "../Modal";
 
 const ReservationForm = () => {
+    const { account, isOpen, setIsOpen } = useContext(AppContext);
+    const navigate = useNavigate;
+
+    const handleClickButton = (e) => {
+        e.preventDefault();
+
+        account ? navigate("/") : setIsOpen(true);
+    };
+
     return (
         <OrderContainer>
             <ReserveTitle>Reservation Details</ReserveTitle>
@@ -8,24 +21,22 @@ const ReservationForm = () => {
             <ReserveSubTitle>₩880,345 / night</ReserveSubTitle>
             <ReserveSubTitle>Check-in Date</ReserveSubTitle>
             <Input type="date" />
-
             <ReserveSubTitle>Check-out Date</ReserveSubTitle>
             <Input type="date" />
-
             <ReserveSubTitle>Guests</ReserveSubTitle>
             <Input type="number" min="1" defaultValue="1" />
-
             {/* 조건 설정 후 modal 띄우기 */}
-            <Button>Reserve Now</Button>
-            {/* 
-    <Modal
-        iconUrl="/assets/icons/error.svg"
-        title="Login / Sign Up"
-        subTitle="Kindly sign up or log in to continue."
-        buttonTexts={["Login/ SignUp", "Cancel"]}
-        buttonColors={["#dc2626", "#FFF"]}
-        buttonTextColors={["#FFF", "#black"]}
-    /> */}
+            <Button onClick={handleClickButton}>Reserve Now</Button>
+            {isOpen && (
+                <Modal
+                    iconUrl="/assets/icons/error.svg"
+                    title="Login / Sign Up"
+                    subTitle="Kindly sign up or log in to continue."
+                    buttonTexts={["Login/ SignUp", "Cancel"]}
+                    buttonColors={["#dc2626", "#FFF"]}
+                    buttonTextColors={["#FFF", "#black"]}
+                />
+            )}
         </OrderContainer>
     );
 };

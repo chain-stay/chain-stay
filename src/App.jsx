@@ -9,8 +9,10 @@ import { createContext, useState } from "react";
 export const AppContext = createContext();
 function App() {
     const [account, setAccount] = useState();
+    const [isOpen, setIsOpen] = useState(false);
+
     return (
-        <AppContext.Provider value={{ account, setAccount }}>
+        <AppContext.Provider value={{ account, setAccount, isOpen, setIsOpen }}>
             <BrowserRouter>
                 <StyledContent>
                     <Header />

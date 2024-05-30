@@ -3,7 +3,7 @@ import Preview from "../components/detailPageComponents/Preview";
 import ProductDescription from "../components/detailPageComponents/ProductDescription";
 
 import ReservationForm from "../components/detailPageComponents/ReservationForm";
-import Modal from "../components/Modal";
+
 const DetailPage = () => {
     return (
         <Container>
