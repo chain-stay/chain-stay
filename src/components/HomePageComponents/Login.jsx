@@ -1,10 +1,9 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import styled from "styled-components";
-import { AppContext } from "../App";
+import { AppContext } from "../../App";
 
 const Login = () => {
-    const { account, setAccount, setIsOpen, onClickAccount } =
-        useContext(AppContext);
+    const { account, onClickAccount } = useContext(AppContext);
 
     return (
         <LoginDiv onClick={onClickAccount}>

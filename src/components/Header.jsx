@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import Login from "./Login";
+import Login from "./HomePageComponents/Login";
 
 const Header = () => {
     return (

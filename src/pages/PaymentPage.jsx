@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-
+import Accommodation from "../components/PaymentPageComponents/Accommodation";
+import Modal from "../components/Modal";
+import { AppContext } from "../App";
 const PaymentPage = () => {
+    const { isOpen, setIsOpen } = useContext(AppContext);
     const [selectedPaymentIndex, setSelectedPaymentIndex] = useState(null);
     const paymentData = [
         {
@@ -22,41 +25,13 @@ const PaymentPage = () => {
     const handlePaymentClick = (index) => {
         setSelectedPaymentIndex(index === selectedPaymentIndex ? null : index);
     };
+    const handleSelectButton = () => {
+        setIsOpen(true);
+    };
 
     return (
         <Container>
-            <Title>
-                <Text>Accommodation Details</Text>
-                <SubBox>
-                    <PreIMG>이미지 넣는 부분</PreIMG>
-                    <Box>
-                        <SubTitle>Your Trip</SubTitle>
-                        <p>Luxury Villa</p>
-                        <p>$200 per night</p>
-                        <p> ㅤ</p>
-                        <BoldText>
-                            <p> Dates</p>
-                            <p> Oct</p>
-                            <p> 23 - 28</p>
-                        </BoldText>
-                        <BoldText>
-                            <p> Guests</p>
-                            <p> 1</p>
-                            <p> guest</p>
-                        </BoldText>
-                        <p>ㅤ</p>
-                        <BoldText>
-                            <p> ChainLink service fee</p>
-                            <p> ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ228</p>
-                        </BoldText>
-                        <BoldText>
-                            <p> Total</p>
-                            <p>ㅤ</p>
-                            <p> ₩1000</p>
-                        </BoldText>
-                    </Box>
-                </SubBox>
-            </Title>
+            <Accommodation />
             <Divider />
 
             <Title>
@@ -77,9 +52,28 @@ const PaymentPage = () => {
                             </div>
                         </Payment>
                     ))}
-                    <Link to="/myPage">
-                        <PaymentButton>Proceed to Payment</PaymentButton>
-                    </Link>
+                    {selectedPaymentIndex !== null ? (
+                        <Link to="/myPage">
+                            <PaymentButton>Proceed to Payment</PaymentButton>
+                        </Link>
+                    ) : (
+                        <PaymentButton onClick={handleSelectButton}>
+                            Proceed to Payment
+                        </PaymentButton>
+                    )}{" "}
+                    {isOpen && (
+                        <Modal
+                            iconUrl="/assets/icons/error.svg"
+                            title="Payment Method Selection"
+                            subTitle="Select Your Preferred Payment Method !"
+                            buttonTexts={[
+                                "Choose Payment Method",
+                                "Back to HomePage",
+                            ]}
+                            buttonColors={["#dc2626", "#FFF"]}
+                            buttonTextColors={["#FFF", "#000"]}
+                        />
+                    )}
                 </div>
             </Title>
         </Container>
@@ -96,15 +90,15 @@ const Container = styled.div`
 `;
 const Divider = styled.div`
     width: 80%;
-    height: 2px;
+    height: 1px;
     background-color: rgb(204, 204, 204);
-    margin: 40px 0;
+    margin: 10px 0;
     align-self: center;
     /* background-color: #f7f7f7; */
 `;
 const Title = styled.div`
-    background-color: #f7f7f799;
-    height: 760px;
+    /* background-color: #f7f7f799; */
+    height: 660px;
     display: flex;
     padding: 60px 170px;
     gap: 60px;
@@ -123,40 +117,6 @@ const Text = styled.div`
     line-height: 48px;
 `;
 
-const SubBox = styled.div`
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    height: 640px;
-    width: 520px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    flex: 1 0 0;
-`;
-
-const Box = styled.div`
-    height: 300px;
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    align-self: stretch;
-
-    p {
-        align-self: stretch;
-        color: #000;
-        text-align: right;
-        font-size: 18px;
-        font-weight: 400;
-        line-height: 24px;
-        margin: 4px;
-    }
-`;
-
 const SubTitle = styled.div`
     color: #000;
     font-family: Roboto;
@@ -166,46 +126,9 @@ const SubTitle = styled.div`
     line-height: 32px;
 `;
 
-const PreIMG = styled.div`
-    height: 340px;
-    flex: 1 0 0;
-    align-self: stretch;
-    background: rgba(217, 217, 217, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-`;
-
-const BoldText = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 12px;
-    align-self: stretch;
-
-    p {
-        flex: 1 0 0;
-        color: #000;
-        text-align: center;
-        font-size: 18px;
-        font-weight: 400;
-        line-height: 28px;
-    }
-
-    p:first-child {
-        font-size: 20px;
-        font-weight: 700;
-        text-align: start;
-    }
-
-    p:nth-child(3) {
-        text-align: end;
-    }
-`;
-
 const Payment = styled.div`
     height: 132px;
-    width: 520px;
+    /* width: 520px; */
     display: flex;
     padding: 16px;
     align-items: center;
@@ -228,6 +151,7 @@ const Payment = styled.div`
     }
 
     margin-bottom: 60px;
+    /* background-color: red; */
 `;
 
 const IMG = styled.div`
@@ -241,9 +165,7 @@ const IMG = styled.div`
 `;
 const PaymentButton = styled.button`
     color: #fff;
-    font-family: Roboto;
     font-size: 16px;
-    font-style: normal;
     font-weight: 500;
     line-height: 24px; /* 150% */
 

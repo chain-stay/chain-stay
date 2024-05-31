@@ -32,7 +32,13 @@ function App() {
 
     return (
         <AppContext.Provider
-            value={{ account, setAccount, isOpen, setIsOpen, onClickAccount }}
+            value={{
+                account,
+                setAccount,
+                isOpen,
+                setIsOpen,
+                onClickAccount,
+            }}
         >
             <BrowserRouter>
                 <StyledContent>

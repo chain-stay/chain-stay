@@ -1,7 +1,8 @@
 import { useContext } from "react";
 import styled from "styled-components";
 import { AppContext } from "../App";
-import { useNavigate } from "react-router";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+
 const Modal = ({
     iconUrl,
     title,
@@ -11,18 +12,20 @@ const Modal = ({
     buttonTextColors,
 }) => {
     const { setIsOpen, onClickAccount } = useContext(AppContext); // AppContext에서 setIsOpen 가져오기
-
     const navigate = useNavigate();
 
     const handleFirstButtonClick = async () => {
         if (buttonTexts[0] === "Login/ SignUp") {
             await onClickAccount();
-        } else if (buttonTexts[0] === "Go to MyPage") {
-            navigate("/");
         }
+
         setIsOpen(false);
     };
-    const handleCancelClick = () => {
+
+    const handleCancelClick = async () => {
+        if (buttonTexts[1] === "Back to HomePage") {
+            await navigate("/");
+        }
         setIsOpen(false);
     };
 
@@ -38,14 +41,15 @@ const Modal = ({
                     <Button
                         color={buttonColors[0]}
                         textColor={buttonTextColors[0]}
-                        onClick={handleFirstButtonClick} // Login/SignUp 버튼에 동작 할당
+                        onClick={handleFirstButtonClick}
                     >
                         {buttonTexts[0]}
                     </Button>
+
                     <Button
                         color={buttonColors[1]}
                         textColor={buttonTextColors[1]}
-                        onClick={handleCancelClick} // Cancel 버튼에 동작 할당
+                        onClick={handleCancelClick}
                     >
                         {buttonTexts[1]}
                     </Button>
@@ -135,4 +139,24 @@ const Button = styled.button`
     font-size: 16px;
     font-weight: 600;
     line-height: 24px; /* 150% */
+`;
+
+const StyledLink = styled(Link)`
+    width: 226px;
+    height: 42px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    border-radius: 6px;
+    background: ${(props) => props.color};
+    color: ${(props) => props.textColor};
+    cursor: pointer;
+    border: 1px solid #d1d5db;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px; /* 150% */
+    text-decoration: none;
 `;

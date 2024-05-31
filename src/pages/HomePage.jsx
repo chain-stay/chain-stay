@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import Card from "../components/Card";
-import IconsForm from "../components/IconsForm";
+import Card from "../components/HomePageComponents/Card";
+import IconsForm from "../components/HomePageComponents/IconsForm";
 
 const HomePage = () => {
     return (
