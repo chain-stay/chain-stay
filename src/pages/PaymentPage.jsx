@@ -60,7 +60,7 @@ const PaymentPage = () => {
                         <PaymentButton onClick={handleSelectButton}>
                             Proceed to Payment
                         </PaymentButton>
-                    )}{" "}
+                    )}
                     {isOpen && (
                         <Modal
                             iconUrl="/assets/icons/error.svg"
