@@ -4,8 +4,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import HomePage from "./pages/HomePage";
 import DetailPage from "./pages/DetailPage";
-import LoginModal from "./components/Modal";
+import MyPage from "./pages/MyPage";
 import { createContext, useState, useEffect } from "react";
+import PaymentPage from "./pages/PaymentPage";
 export const AppContext = createContext();
 
 function App() {
@@ -39,8 +40,8 @@ function App() {
                     <Routes>
                         <Route path="/" element={<HomePage />} />
                         <Route path="/detailPage" element={<DetailPage />} />
-                        <Route path="/detailPage" element={<DetailPage />} />
-                        <Route path="/pre" element={<LoginModal />} />
+                        <Route path="/paymentPage" element={<PaymentPage />} />
+                        <Route path="/myPage" element={<MyPage />} />
                     </Routes>
                 </StyledContent>
             </BrowserRouter>

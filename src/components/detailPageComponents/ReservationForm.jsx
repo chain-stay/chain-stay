@@ -12,7 +12,7 @@ const ReservationForm = () => {
         e.preventDefault();
 
         {
-            account ? navigate(`/`) : setIsOpen(true);
+            account ? navigate(`/paymentPage`) : setIsOpen(true);
         }
     };
 
