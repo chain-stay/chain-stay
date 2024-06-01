@@ -1,5 +1,10 @@
 import styled from "styled-components";
+import Modal from "../components/Modal";
+import { useContext } from "react";
+import { AppContext } from "../App";
+
 const MyPage = () => {
+    const { isOpen } = useContext(AppContext);
     return (
         <Container>
             <ProfileContainer>
@@ -36,6 +41,17 @@ const MyPage = () => {
                     />
                 </div>
             </Book>
+
+            {!isOpen && (
+                <Modal
+                    iconUrl="/assets/icons/check.svg"
+                    title="Order validated"
+                    subTitle="Your reservation has been successfully completed."
+                    buttonTexts={["Go to myPage", "Back to HomePage"]}
+                    buttonColors={["#1AA06D", "#FFF"]}
+                    buttonTextColors={["#FFF", "#000"]}
+                />
+            )}
         </Container>
     );
 };

@@ -1,8 +1,9 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import styled from "styled-components";
 import { AppContext } from "../../App";
 import { useNavigate } from "react-router";
 import Modal from "../Modal";
+import { colorAnim, btnContent } from "../detailPageComponents/Animations"; // Adjust the import path as needed
 
 const ReservationForm = () => {
     const { account, isOpen, setIsOpen } = useContext(AppContext);
@@ -10,10 +11,7 @@ const ReservationForm = () => {
 
     const handleClickButton = (e) => {
         e.preventDefault();
-
-        {
-            account ? navigate(`/paymentPage`) : setIsOpen(true);
-        }
+        account ? navigate(`/paymentPage`) : setIsOpen(true);
     };
 
     return (
@@ -29,8 +27,22 @@ const ReservationForm = () => {
             <ReserveSubTitle>Guests</ReserveSubTitle>
             <Input type="number" min="1" defaultValue="1" />
 
-            {/* 조건 설정 후 modal 띄우기 */}
-            <Button onClick={handleClickButton}>Reserve Now</Button>
+            <ButtonContainer>
+                <Button onClick={handleClickButton}>
+                    Reserve Now
+                    <IconArrow>
+                        <svg id="arrow-icon-one" viewBox="0 0 24 24">
+                            <path d="M0 12h19"></path>
+                        </svg>
+                        <svg id="arrow-icon-two" viewBox="0 0 24 24">
+                            <path d="M0 12h19"></path>
+                        </svg>
+                        <svg id="arrow-icon-three" viewBox="0 0 24 24">
+                            <path d="M0 12h19"></path>
+                        </svg>
+                    </IconArrow>
+                </Button>
+            </ButtonContainer>
             {isOpen && (
                 <Modal
                     iconUrl="/assets/icons/error.svg"
@@ -38,7 +50,7 @@ const ReservationForm = () => {
                     subTitle="Kindly sign up or log in to continue."
                     buttonTexts={["Login/ SignUp", "Cancel"]}
                     buttonColors={["#dc2626", "#FFF"]}
-                    buttonTextColors={["#FFF", "#black"]}
+                    buttonTextColors={["#FFF", "#000"]}
                 />
             )}
         </OrderContainer>
@@ -47,73 +59,125 @@ const ReservationForm = () => {
 export default ReservationForm;
 
 const ReserveTitle = styled.h1`
-    display: box;
-    flex: 1 0 0;
-    align-self: stretch;
     color: #000;
-
     text-align: center;
     font-family: Nunito;
     font-size: 35px;
-    font-style: normal;
     font-weight: 700;
-    line-height: 0px; /* 0% */
 `;
 
 const ReserveSubTitle = styled.h2`
     font-size: 18px;
     margin-bottom: 5px;
+    text-align: left;
+    width: 100%; /* Ensure the subtitle takes the full width of the container */
 `;
 
 const Input = styled.input`
     width: 95%;
-    /* margin: 0px auto 15px auto; */
     padding: 10px;
     margin-bottom: 15px;
-    /* margin-right: 10px; */
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
-    /* display: flex; */
-    /* justify-content: center; */
+    cursor: pointer;
 `;
+
 const OrderContainer = styled.div`
-    display: flex;
     width: 100%;
-
+    display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
-
     padding: 30px;
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     max-width: 400px;
     margin: 20px auto;
-    margin-left: 60px;
-    margin-right: 5px;
-    p {
-        display: flex;
-        margin: 15px auto 30px auto;
-        align-items: flex-center;
-    }
 
-    /* position: fix; */
+    p {
+        text-align: center;
+    }
 `;
-const Button = styled.button`
+
+const ButtonContainer = styled.div`
     display: flex;
     justify-content: center;
+    width: 100%;
+    --color-text: #ffffff;
+    --color-background: #ff135a;
+    --color-outline: #ff145b80;
+    --color-shadow: #00000080;
+`;
+
+const Button = styled.button`
+    display: flex;
     align-items: center;
-    padding: 10px 20px;
-    font-size: 16px;
-    color: white;
-    background-color: #007bff;
+    justify-content: center;
+    padding: 10px 30px;
+    text-decoration: none;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-size: 25px;
+    color: var(--color-text);
+    background: var(--color-background);
+    transition: 1s;
+    border-radius: 100px;
+    box-shadow: 0 0 0.2em 0 var(--color-background);
     border: none;
-    border-radius: 5px;
     cursor: pointer;
     margin: auto;
-    &:hover {
-        background-color: #0056b3;
+
+    &:hover,
+    &:focus {
+        transition: 0.5s;
+        animation: ${btnContent} 1s;
+        outline: 0.1em solid transparent;
+        outline-offset: 0.2em;
+        box-shadow: 0 0 0.4em 0 var(--color-background);
+    }
+
+    &:hover .icon-arrow {
+        transition: 0.5s;
+        margin-right: 25px;
+    }
+`;
+
+const IconArrow = styled.div`
+    display: flex;
+    transition: 0.5s;
+    margin-right: 0px;
+    transform: scale(0.6);
+    margin-left: 15px;
+    position: relative;
+    top: 6%;
+
+    svg {
+        fill: white;
+    }
+
+    #arrow-icon-one {
+        transition: 0.4s;
+        transform: translateX(-60%);
+    }
+
+    #arrow-icon-two {
+        transition: 0.5s;
+        transform: translateX(-30%);
+    }
+
+    ${Button}:hover & #arrow-icon-three {
+        animation: ${colorAnim} 1s infinite 0.2s;
+    }
+
+    ${Button}:hover & #arrow-icon-one {
+        transform: translateX(0%);
+        animation: ${colorAnim} 1s infinite 0.6s;
+    }
+
+    ${Button}:hover & #arrow-icon-two {
+        transform: translateX(0%);
+        animation: ${colorAnim} 1s infinite 0.4s;
     }
 `;

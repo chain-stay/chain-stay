@@ -7,6 +7,7 @@ import DetailPage from "./pages/DetailPage";
 import MyPage from "./pages/MyPage";
 import { createContext, useState, useEffect } from "react";
 import PaymentPage from "./pages/PaymentPage";
+import P from "./pages/P";
 export const AppContext = createContext();
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
                         <Route path="/detailPage" element={<DetailPage />} />
                         <Route path="/paymentPage" element={<PaymentPage />} />
                         <Route path="/myPage" element={<MyPage />} />
+                        {/* <Route path="/p" element={<P />} /> */}
                     </Routes>
                 </StyledContent>
             </BrowserRouter>
@@ -71,8 +73,8 @@ const StyledContent = styled.div`
     display: flex;
     flex-direction: column;
 
-    overflow-y: hidden;
-    overflow-x: hidden;
+    /* overflow-y: hidden; */
+    /* overflow-x: hidden; */
 
     color: #000;
     text-align: center;

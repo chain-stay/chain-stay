@@ -6,7 +6,7 @@ const Header = () => {
     return (
         <Container>
             <Link to="/">
-                <LogoDiv>Airbnb</LogoDiv>
+                <LogoDiv>ChainStay</LogoDiv>
             </Link>
             {/* 메타마스크 로그인 진행 */}
 
@@ -26,6 +26,7 @@ const Container = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    /* cursor: pointer; */
 
     gap: 20px;
     position: fixed;
