@@ -30,16 +30,25 @@ contract ChainStayHub {
 
     mapping(uint256 reservationId => Reservation) public getReservationInfo;
     mapping(uint256 accomId => uint256[] reservationIds) public getReservationList;
-    uint256 totalAccommodation;
+    uint256 public totalAccommodation;
 
     mapping(address host => uint256[] accommIds) public getAccommodationInfo;
     mapping(uint256 accommId => address host) public getHostInfo;
     mapping(address guest => uint256[] reservationIds) public getGuestReservationList;
-    uint256 totalReservation;
+    uint256 public totalReservation;
 
-    mapping(uint8 paymentTokenType => address token) getPaymentToken;
+    mapping(uint8 paymentTokenType => address token) public getPaymentToken;
     mapping(uint8 paymentTokenType => uint256 reserve) getPaymentBalance; // Todo use this mapping for verifying token transffering
     
+    constructor(address defaultPaymentToken) {
+        require(defaultPaymentToken != address(0), "!defaultPaymentToken");
+        getPaymentToken[1] = defaultPaymentToken;
+    }
+
+    function updatePaymenttoken(uint8 pymentTokenType, address paymentToken) external {
+        getPaymentToken[pymentTokenType] = paymentToken;
+    }
+
     function addAccommodation(address host) public {
         uint256 accomId = ++totalAccommodation;
 
@@ -60,16 +69,16 @@ contract ChainStayHub {
 
         _;
     }
-    function reserve(ReservationRequest memory request) public {
-        _makeReservation(request);
+    function reserve(ReservationRequest memory request) public returns(uint256 reservationId) {
+        reservationId = _makeReservation(request);
 
         // transferToken
         address token = getPaymentToken[request.paymentTokenType];
         IERC20Minimal(token).transferFrom(request.guest, address(this), request.totalPrice);
     }
 
-    function reserveViaCCIP(ReservationRequest memory request) public {
-        _makeReservation(request);
+    function reserveViaCCIP(ReservationRequest memory request) public returns(uint256 reservationId){
+        reservationId = _makeReservation(request);
 
         // transferToken
         address token = getPaymentToken[request.paymentTokenType];
@@ -108,7 +117,7 @@ contract ChainStayHub {
     function confirm(uint256 reservationId) public onlyHostOrGuest(reservationId) {
         Reservation storage reserveInfo = getReservationInfo[reservationId];
 
-        if(reserveInfo.startDate != 0) {
+        if(reserveInfo.status != 0) {
             revert("already confirmed or cancled");
         }
         reserveInfo.status = 2;
@@ -120,7 +129,7 @@ contract ChainStayHub {
     function cancle(uint256 reservationId) public onlyHostOrGuest(reservationId) {
         Reservation storage reserveInfo = getReservationInfo[reservationId];
 
-        if(reserveInfo.startDate != 0) {
+        if(reserveInfo.status != 0) {
             revert("already confirmed or cancled");
         }
         reserveInfo.status = 1;
