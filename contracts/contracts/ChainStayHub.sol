@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.24;
+pragma solidity ^0.8.19;
 
 import {IERC20Minimal} from "./interfaces/IERC20Minimal.sol";
 
@@ -19,11 +19,13 @@ contract ChainStayHub {
     }
 
     struct ReservationRequest {
+        address guest;
         uint8 paymentTokenType; // usdc=1, usdt=2
         uint32 startDate;
         uint32 endDate; // form: 20240530
         uint32 members;
         uint256 totalPrice;
+        uint256 accommodationId;
     }
 
     mapping(uint256 reservationId => Reservation) public getReservationInfo;
@@ -58,16 +60,34 @@ contract ChainStayHub {
 
         _;
     }
-    function reserve(uint256 accomId, address guest, ReservationRequest memory request) public {
+    function reserve(ReservationRequest memory request) public {
+        _makeReservation(request)
+
+        // transferToken
+        address token = getPaymentToken[request.paymentTokenType];
+        IERC20Minimal(token).transferFrom(request.guest, request.totalPrice);
+    }
+
+    function reserveViaCCIP(ReservationRequest memory request) public {
+        _makeReservation(request)
+
+        // transferToken
+        address token = getPaymentToken[request.paymentTokenType];
+        IERC20Minimal(token).transferFrom(msg.sender, request.totalPrice);
+
+    } 
+
+    function _makeReservation(ReservationRequest memory request) internal returns(uint256 reservationId) {
+        uint256 accomId = request.accommodationId;
         require(accomId <= totalAccommodation, "!accomId");
-        uint256 reservationId = ++totalReservation;
+        reservationId = ++totalReservation;
 
         // add reservation
         Reservation storage reservation = getReservationInfo[reservationId];
 
         require(request.paymentTokenType != 0, "!paymentTokenType");
         require(request.totalPrice > 0, "!totalPrice");
-        require(guest != address(0), "!guest");
+        require(request.guest != address(0), "!guest");
 
         reservation.paymentTokenType = request.paymentTokenType;
         reservation.startDate = request.startDate;
@@ -75,7 +95,7 @@ contract ChainStayHub {
         reservation.members = request.members;
         reservation.totalPrice = request.totalPrice;
         reservation.host = getHostInfo[accomId];
-        reservation.guest = guest;
+        reservation.guest = request.guest;
 
         reservation.accommodationId = accomId;
 
@@ -84,13 +104,6 @@ contract ChainStayHub {
         getGuestReservationList[guest].push(reservationId);
     }
 
-    function reserveViaCCIP() public {
-        // Todo
-        // 1. make receiver for ccip contracts
-        // 2. call this function for token receiving & message receiving
-        // 3. decode message for calling receive function
-        // 4. call receive function 
-    } 
     function confirm(uint256 reservationId) public onlyHostOrGuest(reservationId) {
         Reservation storage reserveInfo = getReservationInfo[reservationId];
 
