@@ -8,8 +8,9 @@ import {CCIPReceiver} from "@chainlink/contracts-ccip/src/v0.8/ccip/applications
 import {IERC20} from "@chainlink/contracts-ccip/src/v0.8/vendor/openzeppelin-solidity/v4.8.3/contracts/token/ERC20/IERC20.sol";
 import {SafeERC20} from "@chainlink/contracts-ccip/src/v0.8/vendor/openzeppelin-solidity/v4.8.3/contracts/token/ERC20/utils/SafeERC20.sol";
 import {ChainStayHub} from "./ChainStayHub.sol";
+import {IERC20Minimal} from "./interfaces/IERC20Minimal.sol";
 
-contract CCIPReceiver is CCIPReceiver, OwnerIsCreator {
+contract ReservationReceiver is CCIPReceiver, OwnerIsCreator {
     using SafeERC20 for IERC20;
 
     ////////////////////
@@ -110,25 +111,24 @@ contract CCIPReceiver is CCIPReceiver, OwnerIsCreator {
         ) // Make sure source chain and sender are allowlisted
     {
 
-        ChainStayHub.ReservationRequest memory request = abi.decode(any2EvmMessage.data, ChainStayHub.ReservationRequest);
+        ChainStayHub.ReservationRequest memory request = abi.decode(any2EvmMessage.data, (ChainStayHub.ReservationRequest));
         
-        address token = destTokenAmounts[0].token;
+        address token = any2EvmMessage.destTokenAmounts[0].token;
+        uint256 amount = any2EvmMessage.destTokenAmounts[0].amount;
 
         // approve
-        IERC20Minimal(token).approve(address(chainStayHub), destTokenAmounts[0].amount);
-        
+        IERC20Minimal(token).approve(address(chainStayHub), amount);
+
         // call function for reservation
         chainStayHub.reserveViaCCIP(request);
-
-
 
         emit MessageReceived(
             any2EvmMessage.messageId,
             any2EvmMessage.sourceChainSelector, // fetch the source chain identifier (aka selector)
             abi.decode(any2EvmMessage.sender, (address)), // abi-decoding of the sender address,
             abi.decode(any2EvmMessage.data, (string)),
-            any2EvmMessage.destTokenAmounts[0].token,
-            any2EvmMessage.destTokenAmounts[0].amount
+            token,
+            amount
         );
     }
 

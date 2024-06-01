@@ -61,24 +61,25 @@ contract ChainStayHub {
         _;
     }
     function reserve(ReservationRequest memory request) public {
-        _makeReservation(request)
+        _makeReservation(request);
 
         // transferToken
         address token = getPaymentToken[request.paymentTokenType];
-        IERC20Minimal(token).transferFrom(request.guest, request.totalPrice);
+        IERC20Minimal(token).transferFrom(request.guest, address(this), request.totalPrice);
     }
 
     function reserveViaCCIP(ReservationRequest memory request) public {
-        _makeReservation(request)
+        _makeReservation(request);
 
         // transferToken
         address token = getPaymentToken[request.paymentTokenType];
-        IERC20Minimal(token).transferFrom(msg.sender, request.totalPrice);
+        IERC20Minimal(token).transferFrom(msg.sender, address(this), request.totalPrice);
 
     } 
 
     function _makeReservation(ReservationRequest memory request) internal returns(uint256 reservationId) {
         uint256 accomId = request.accommodationId;
+        
         require(accomId <= totalAccommodation, "!accomId");
         reservationId = ++totalReservation;
 
@@ -101,7 +102,7 @@ contract ChainStayHub {
 
         // mapping
         getReservationList[accomId].push(reservationId);
-        getGuestReservationList[guest].push(reservationId);
+        getGuestReservationList[request.guest].push(reservationId);
     }
 
     function confirm(uint256 reservationId) public onlyHostOrGuest(reservationId) {

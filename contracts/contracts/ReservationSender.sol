@@ -13,7 +13,7 @@ import {SafeERC20} from "@chainlink/contracts-ccip/src/v0.8/vendor/openzeppelin-
 // 2. send 할 때 호출할 수 있는 function 만들기 ✅
 // 3. compile 잘 되나 확인 
 
-contract CCIPSender is OwnerIsCreator {
+contract ReservationSender is OwnerIsCreator {
     using SafeERC20 for IERC20;
 
     ////////////////////
@@ -32,7 +32,7 @@ contract CCIPSender is OwnerIsCreator {
         bytes32 indexed messageId, // The unique ID of the CCIP message.
         uint64 indexed destinationChainSelector, // The chain selector of the destination chain.
         address receiver, // The address of the receiver on the destination chain.
-        string text, // The text being sent.
+        bytes text, // The text being sent.
         address token, // The token address that was transferred.
         uint256 tokenAmount, // The token amount that was transferred.
         address feeToken, // the token address used to pay CCIP fees.
@@ -102,7 +102,7 @@ contract CCIPSender is OwnerIsCreator {
     /// @notice Calculate your data and transfer tokens fee by link
     /// @param _destChainSelector The identifier (aka selector) for the destination blockchain.
     /// @param _receiver The address of the recipient on the destination blockchain.
-    /// @param _text The string data to be sent.
+    /// @param _request The string data to be sent.
     /// @param _token token address.
     /// @param _amount token amount.
     function getLinkFeeAmount(
@@ -112,7 +112,7 @@ contract CCIPSender is OwnerIsCreator {
         address _token, 
         uint256 _amount 
     ) external view onlyAllowlistedDestinationChain(_destChainSelector) returns(uint256 fees) {
-        bytes _data = abi.encode(_request);
+        bytes memory _data = abi.encode(_request);
         
         Client.EVM2AnyMessage memory evm2AnyMessage = _buildCCIPMessage(
             _receiver,
@@ -150,7 +150,7 @@ contract CCIPSender is OwnerIsCreator {
         returns (bytes32 messageId)
     {   
         // Todo verify _request
-        bytes _data = abi.encode(_request);
+        bytes memory _data = abi.encode(_request);
         
         Client.EVM2AnyMessage memory evm2AnyMessage = _buildCCIPMessage(
             _receiver,
@@ -177,7 +177,7 @@ contract CCIPSender is OwnerIsCreator {
             messageId,
             _destChainSelector,
             _receiver,
-            _text,
+            _data,
             _token,
             _amount,
             address(s_linkToken),
@@ -191,7 +191,7 @@ contract CCIPSender is OwnerIsCreator {
     /// @notice Calculate your data and transfer tokens fee by link
     /// @param _destChainSelector The identifier (aka selector) for the destination blockchain.
     /// @param _receiver The address of the recipient on the destination blockchain.
-    /// @param _text The string data to be sent.
+    /// @param _request The string data to be sent.
     /// @param _token token address.
     /// @param _amount token amount.
     function getNativeFeeAmount(
@@ -201,7 +201,7 @@ contract CCIPSender is OwnerIsCreator {
         address _token, 
         uint256 _amount 
     ) external view onlyAllowlistedDestinationChain(_destChainSelector) returns(uint256 fees) {
-        bytes _data = abi.encode(_request);
+        bytes memory _data = abi.encode(_request);
         
         Client.EVM2AnyMessage memory evm2AnyMessage = _buildCCIPMessage(
             _receiver,
@@ -239,7 +239,7 @@ contract CCIPSender is OwnerIsCreator {
         returns (bytes32 messageId)
     {
         // Todo verify _request
-        bytes _data = abi.encode(_request);
+        bytes memory _data = abi.encode(_request);
         
         Client.EVM2AnyMessage memory evm2AnyMessage = _buildCCIPMessage(
             _receiver,
@@ -267,7 +267,7 @@ contract CCIPSender is OwnerIsCreator {
             messageId,
             _destChainSelector,
             _receiver,
-            _text,
+            _data,
             _token,
             _amount,
             address(0),
@@ -280,14 +280,14 @@ contract CCIPSender is OwnerIsCreator {
     /// @notice Construct a CCIP message.
     /// @dev This function will create an EVM2AnyMessage struct with all the necessary information for programmable tokens transfer.
     /// @param _receiver The address of the receiver.
-    /// @param _text The string data to be sent.
+    /// @param _data The string data to be sent.
     /// @param _token The token to be transferred.
     /// @param _amount The amount of the token to be transferred.
     /// @param _feeTokenAddress The address of the token used for fees. Set address(0) for native gas.
     /// @return Client.EVM2AnyMessage Returns an EVM2AnyMessage struct which contains information for sending a CCIP message.
     function _buildCCIPMessage(
         address _receiver,
-        bytes calldata _data,
+        bytes memory _data,
         address _token,
         uint256 _amount,
         address _feeTokenAddress
