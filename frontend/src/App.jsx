@@ -26,6 +26,12 @@ function App() {
             console.error("Error fetching accounts:", error);
         }
     };
+
+    const disconnectWallet = () => {
+        setAccount(null);
+        console.log("Wallet disconnected");
+    };
+
     useEffect(() => {
         console.log("Current account:", account);
     }, [account]);
@@ -38,6 +44,7 @@ function App() {
                 isOpen,
                 setIsOpen,
                 onClickAccount,
+                disconnectWallet,
             }}
         >
             <BrowserRouter>
