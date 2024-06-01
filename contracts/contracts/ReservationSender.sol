@@ -8,11 +8,6 @@ import {CCIPReceiver} from "@chainlink/contracts-ccip/src/v0.8/ccip/applications
 import {IERC20} from "@chainlink/contracts-ccip/src/v0.8/vendor/openzeppelin-solidity/v4.8.3/contracts/token/ERC20/IERC20.sol";
 import {SafeERC20} from "@chainlink/contracts-ccip/src/v0.8/vendor/openzeppelin-solidity/v4.8.3/contracts/token/ERC20/utils/SafeERC20.sol";
 
-// Todo 
-// 1. receive 관련 함수들 모두 제거 ✅
-// 2. send 할 때 호출할 수 있는 function 만들기 ✅
-// 3. compile 잘 되나 확인 
-
 contract ReservationSender is OwnerIsCreator {
     using SafeERC20 for IERC20;
 
