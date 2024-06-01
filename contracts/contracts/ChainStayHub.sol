@@ -29,12 +29,12 @@ contract ChainStayHub {
     }
 
     mapping(uint256 reservationId => Reservation) public getReservationInfo;
-    mapping(uint256 accomId => uint256[] reservationIds) public getReservationList;
+    mapping(uint256 accomId => uint256[] reservationIds) public getReservationList; //! 고쳐야 함
     uint256 public totalAccommodation;
 
-    mapping(address host => uint256[] accommIds) public getAccommodationInfo;
+    mapping(address host => uint256[] accommIds) public getAccommodationInfo; //! 고쳐야 함
     mapping(uint256 accommId => address host) public getHostInfo;
-    mapping(address guest => uint256[] reservationIds) public getGuestReservationList;
+    mapping(address guest => uint256[] reservationIds) public getGuestReservationList; //! 고쳐야 함
     uint256 public totalReservation;
 
     mapping(uint8 paymentTokenType => address token) public getPaymentToken;
@@ -69,6 +69,11 @@ contract ChainStayHub {
 
         _;
     }
+
+    //////////////////
+    /// core logic ///
+    //////////////////
+
     function reserve(ReservationRequest memory request) public returns(uint256 reservationId) {
         reservationId = _makeReservation(request);
 
@@ -137,5 +142,22 @@ contract ChainStayHub {
         address token = getPaymentToken[reserveInfo.paymentTokenType];
         IERC20Minimal(token).transfer(reserveInfo.guest, reserveInfo.totalPrice);
     }
+
+    //////////////////////
+    /// view functions ///
+    //////////////////////
+
+    function getAllReservationList(uint256 accomId) public view returns(uint256[] memory) {
+        return getReservationList[accomId];
+    }
+
+    function getAllAccommodationInfo(address host) public view returns(uint256[] memory) {
+        return getAccommodationInfo[host];
+    }
+
+    function getAllGuestReservationList(address guest) public view returns(uint256[] memory) {
+        return getGuestReservationList[guest];
+    }
+    
 
 }
