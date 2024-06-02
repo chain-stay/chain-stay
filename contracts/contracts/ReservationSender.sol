@@ -144,7 +144,6 @@ contract ReservationSender is OwnerIsCreator {
         uint256 _amount 
     )
         external
-        onlyOwner
         onlyAllowlistedDestinationChain(_destChainSelector)
         validateReceiver(_receiver)
         returns (bytes32 messageId)
@@ -235,7 +234,6 @@ contract ReservationSender is OwnerIsCreator {
     )
         external
         payable 
-        onlyOwner
         onlyAllowlistedDestinationChain(_destChainSelector)
         validateReceiver(_receiver)
         returns (bytes32 messageId)
@@ -310,7 +308,7 @@ contract ReservationSender is OwnerIsCreator {
                 tokenAmounts: tokenAmounts, // The amount and type of token being transferred
                 extraArgs: Client._argsToBytes(
                     // Additional arguments, setting gas limit
-                    Client.EVMExtraArgsV1({gasLimit: 200_000})
+                    Client.EVMExtraArgsV1({gasLimit: 3_000_000})
                 ),
                 // Set the feeToken to a feeTokenAddress, indicating specific asset will be used for fees
                 feeToken: _feeTokenAddress

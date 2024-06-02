@@ -30,7 +30,7 @@ contract ReservationReceiver is CCIPReceiver, OwnerIsCreator {
         bytes32 indexed messageId, // The unique ID of the CCIP message.
         uint64 indexed sourceChainSelector, // The chain selector of the source chain.
         address sender, // The address of the sender from the source chain.
-        string text, // The text that was received.
+        bytes text, // The text that was received.
         address token, // The token address that was transferred.
         uint256 tokenAmount // The token amount that was transferred.
     );
@@ -45,7 +45,6 @@ contract ReservationReceiver is CCIPReceiver, OwnerIsCreator {
     // Mapping to keep track of allowlisted senders.
     mapping(address => bool) public allowlistedSenders;
 
-    IERC20 private s_linkToken;
     ChainStayHub public chainStayHub; 
 
     /////////////
@@ -53,13 +52,9 @@ contract ReservationReceiver is CCIPReceiver, OwnerIsCreator {
     /////////////
 
     /// @param _router The address of the router contract.
-    /// @param _link The address of the link contract.
-    constructor(address _router, address _link, address _chainStayHub) CCIPReceiver(_router) {
-        s_linkToken = IERC20(_link);
+    /// @param _chainStayHub The address of the chain-stay hub contract.
+    constructor(address _router, address _chainStayHub) CCIPReceiver(_router) {
         chainStayHub = ChainStayHub(_chainStayHub);
-
-        // add default allowed sender list
-        allowlistedSenders[_chainStayHub] = true;
 
         // add default allowed source chain list
         allowlistedSourceChains[14767482510784806043] = true; // avalanche
@@ -103,7 +98,7 @@ contract ReservationReceiver is CCIPReceiver, OwnerIsCreator {
     //////////////////////
     /// core functions ///
     //////////////////////
-
+    
     /// @dev handle a received message
     function _ccipReceive(
         Client.Any2EVMMessage memory any2EvmMessage
