@@ -11,12 +11,12 @@ const Modal = ({
     buttonColors,
     buttonTextColors,
 }) => {
-    const { setIsOpen, onClickAccount } = useContext(AppContext); // AppContext에서 setIsOpen 가져오기
+    const { setIsOpen, onClickConnect } = useContext(AppContext); // AppContext에서 setIsOpen 가져오기
     const navigate = useNavigate();
 
     const handleFirstButtonClick = async () => {
         if (buttonTexts[0] === "Login/ SignUp") {
-            await onClickAccount();
+            await onClickConnect();
         }
         setIsOpen(false);
 

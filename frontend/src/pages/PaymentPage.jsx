@@ -10,16 +10,16 @@ const PaymentPage = () => {
     const [selectedPaymentIndex, setSelectedPaymentIndex] = useState(null);
     const paymentData = [
         {
-            imgSrc: `${process.env.PUBLIC_URL}/assets/images/pageImg/nfts.svg`,
-            altText: "RightArrow",
+            imgSrc: `${process.env.PUBLIC_URL}/assets/icons/coin1.png`,
             title: "USDC",
-            description: "Pay securely using your credit card.",
+            description:
+                "Secure your transactions with USDC, a stablecoin backed by the US dollar.",
         },
         {
-            imgSrc: `${process.env.PUBLIC_URL}/assets/images/pageImg/nfts.svg`,
-            altText: "RightArrow",
+            imgSrc: `${process.env.PUBLIC_URL}/assets/icons/coin2.png`,
             title: "USDT",
-            description: "Pay with your PayPal account for convenience.",
+            description:
+                "Choose USDT for your payments and experience the convenience of a widely accepted stablecoin.",
         },
     ];
 
@@ -45,7 +45,7 @@ const PaymentPage = () => {
                             onClick={() => handlePaymentClick(index)}
                         >
                             <IMG>
-                                <img src={item.imgSrc} alt={item.altText} />
+                                <StyledImg src={item.imgSrc} />
                             </IMG>
                             <div>
                                 <SubTitle>{item.title}</SubTitle>
@@ -131,7 +131,8 @@ const SubTitle = styled.div`
 `;
 
 const Payment = styled.div`
-    height: 132px;
+    width: 520px;
+    height: 150px;
     display: flex;
     padding: 16px;
     align-items: center;
@@ -151,6 +152,7 @@ const Payment = styled.div`
 
     div {
         text-align: start;
+        width: 370px;
     }
 
     margin-bottom: 60px;
@@ -161,9 +163,17 @@ const IMG = styled.div`
     border-radius: 16px;
     background: rgba(217, 217, 217, 0.5);
     display: flex;
-    width: 150px;
+    width: 200px;
+    height: 150px;
     align-items: flex-start;
     border-radius: 5px;
+    overflow: hidden;
+`;
+
+const StyledImg = styled.img`
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 `;
 
 const ButtonContainer = styled.div`
