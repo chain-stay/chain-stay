@@ -7,7 +7,7 @@ const Login = () => {
         useContext(AppContext);
 
     return (
-        <LoginDiv onClick={account ? onClickConnect : onClickDisconnect}>
+        <LoginDiv onClick={account ? onClickDisconnect : onClickConnect}>
             <Button>
                 <div className="svg-wrapper">
                     <svg
