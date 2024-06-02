@@ -12,6 +12,7 @@ export const AppContext = createContext();
 function App() {
     const [account, setAccount] = useState();
     const [isOpen, setIsOpen] = useState(false);
+    const [chain, setChain] = useState(0);
 
     const onClickConnect = async () => {
         try {
@@ -27,6 +28,17 @@ function App() {
         }
     };
 
+    const getChainId = async () => {
+        if (window.ethereum) {
+          try {
+            const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+            setChain(parseInt(chainId, 16));
+          } catch (error) {
+            console.error('Error fetching chainId:', error);
+          }
+      }
+    };
+
     const onClickDisconnect = () => {
         setAccount(null);
         console.log("Wallet disconnected");
@@ -34,6 +46,7 @@ function App() {
 
     useEffect(() => {
         console.log("Current account:", account);
+        getChainId();
     }, [account]);
 
     return (
@@ -45,6 +58,7 @@ function App() {
                 setIsOpen,
                 onClickConnect,
                 onClickDisconnect,
+                chain
             }}
         >
             <BrowserRouter>
