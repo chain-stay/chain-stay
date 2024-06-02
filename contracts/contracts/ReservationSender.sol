@@ -8,6 +8,8 @@ import {CCIPReceiver} from "@chainlink/contracts-ccip/src/v0.8/ccip/applications
 import {IERC20} from "@chainlink/contracts-ccip/src/v0.8/vendor/openzeppelin-solidity/v4.8.3/contracts/token/ERC20/IERC20.sol";
 import {SafeERC20} from "@chainlink/contracts-ccip/src/v0.8/vendor/openzeppelin-solidity/v4.8.3/contracts/token/ERC20/utils/SafeERC20.sol";
 
+/// @title This is ccip message sender in avax, eth, optimism networks. 
+/// It can send reservation via ccip router.
 contract ReservationSender is OwnerIsCreator {
     using SafeERC20 for IERC20;
 
@@ -66,6 +68,9 @@ contract ReservationSender is OwnerIsCreator {
     constructor(address _router, address _link) {
         s_linkToken = IERC20(_link);
         s_router = _router;
+
+        // add default allowed destination chain list
+        allowlistedDestinationChains[16281711391670634445] = true; // polygon
     }
 
     modifier onlyAllowlistedDestinationChain(uint64 _destChainSelector) {
@@ -139,7 +144,6 @@ contract ReservationSender is OwnerIsCreator {
         uint256 _amount 
     )
         external
-        onlyOwner
         onlyAllowlistedDestinationChain(_destChainSelector)
         validateReceiver(_receiver)
         returns (bytes32 messageId)
@@ -162,8 +166,10 @@ contract ReservationSender is OwnerIsCreator {
         if (fees > s_linkToken.balanceOf(address(this)))
             revert NotEnoughBalance(s_linkToken.balanceOf(address(this)), fees);
 
+        s_linkToken.transferFrom(msg.sender, address(this), fees);
         s_linkToken.approve(address(router), fees);
 
+        IERC20(_token).transferFrom(msg.sender, address(this), _amount);
         IERC20(_token).approve(address(router), _amount);
 
         messageId = router.ccipSend(_destChainSelector, evm2AnyMessage);
@@ -220,7 +226,7 @@ contract ReservationSender is OwnerIsCreator {
     /// @param _token token address.
     /// @param _amount token amount.
     /// @return messageId The ID of the CCIP message that was sent.
-    function sendMessagePayNative(
+    function sendReservationPayNative(
         uint64 _destChainSelector,
         address _receiver,
         ReservationRequest calldata _request,
@@ -228,7 +234,7 @@ contract ReservationSender is OwnerIsCreator {
         uint256 _amount
     )
         external
-        onlyOwner
+        payable 
         onlyAllowlistedDestinationChain(_destChainSelector)
         validateReceiver(_receiver)
         returns (bytes32 messageId)
@@ -251,6 +257,7 @@ contract ReservationSender is OwnerIsCreator {
         if (fees > address(this).balance)
             revert NotEnoughBalance(address(this).balance, fees);
 
+        IERC20(_token).transferFrom(msg.sender, address(this), _amount);
         IERC20(_token).approve(address(router), _amount);
 
         messageId = router.ccipSend{value: fees}(
@@ -302,7 +309,7 @@ contract ReservationSender is OwnerIsCreator {
                 tokenAmounts: tokenAmounts, // The amount and type of token being transferred
                 extraArgs: Client._argsToBytes(
                     // Additional arguments, setting gas limit
-                    Client.EVMExtraArgsV1({gasLimit: 200_000})
+                    Client.EVMExtraArgsV1({gasLimit: 3_000_000})
                 ),
                 // Set the feeToken to a feeTokenAddress, indicating specific asset will be used for fees
                 feeToken: _feeTokenAddress
