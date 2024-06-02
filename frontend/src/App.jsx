@@ -14,7 +14,7 @@ function App() {
     const [account, setAccount] = useState();
     const [isOpen, setIsOpen] = useState(false);
 
-    const onClickAccount = async () => {
+    const onClickConnect = async () => {
         try {
             const accounts = await window.ethereum.request({
                 method: "eth_requestAccounts",
@@ -28,7 +28,7 @@ function App() {
         }
     };
 
-    const disconnectWallet = () => {
+    const onClickDisconnect = () => {
         setAccount(null);
         console.log("Wallet disconnected");
     };
@@ -44,8 +44,8 @@ function App() {
                 setAccount,
                 isOpen,
                 setIsOpen,
-                onClickAccount,
-                disconnectWallet,
+                onClickConnect,
+                onClickDisconnect,
             }}
         >
             <BrowserRouter>
