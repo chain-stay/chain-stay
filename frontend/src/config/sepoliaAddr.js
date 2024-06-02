@@ -1,0 +1,1 @@
+export const ccipSender = "0x1c6fB2Ab4C3fEe634539246d4c8107Ff654612B2";
