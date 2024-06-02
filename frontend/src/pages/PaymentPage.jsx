@@ -6,6 +6,8 @@ import Accommodation from "../components/PaymentPageComponents/Accommodation";
 import Modal from "../components/Modal";
 import { AppContext } from "../App";
 import Web3 from "web3";
+import { useNavigate } from 'react-router-dom';
+
 
 const PaymentPage = () => {
   const {
@@ -17,6 +19,8 @@ const PaymentPage = () => {
     account,
   } = useContext(AppContext);
   const [selectedPaymentIndex, setSelectedPaymentIndex] = useState(null);
+  const navigate = useNavigate();
+
 
   const paymentData = [
     {
@@ -105,7 +109,11 @@ const PaymentPage = () => {
           gas: 3000000, // Adjust gas limit as needed
         });
 
+      
+
       console.log("Transaction successful:", tx);
+
+      navigate('/myPage');
     } catch (error) {
       console.error("Transaction failed:", error);
       return false;
