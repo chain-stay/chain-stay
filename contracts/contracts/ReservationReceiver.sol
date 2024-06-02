@@ -10,6 +10,8 @@ import {SafeERC20} from "@chainlink/contracts-ccip/src/v0.8/vendor/openzeppelin-
 import {ChainStayHub} from "./ChainStayHub.sol";
 import {IERC20Minimal} from "./interfaces/IERC20Minimal.sol";
 
+/// @title This is ccip message receiver in polygon networks. 
+/// It can receive reservation info and make reservation in ChainStayHub contracts
 contract ReservationReceiver is CCIPReceiver, OwnerIsCreator {
     using SafeERC20 for IERC20;
 

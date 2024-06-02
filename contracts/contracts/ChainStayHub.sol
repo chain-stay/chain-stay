@@ -3,6 +3,8 @@ pragma solidity ^0.8.19;
 
 import {IERC20Minimal} from "./interfaces/IERC20Minimal.sol";
 
+/// @title This is the contract for ChainStayHub reservation.
+/// Hosts can make accommodation list and guests can make reservation list via this contract.
 contract ChainStayHub {
     struct Reservation {
         // reservation info
