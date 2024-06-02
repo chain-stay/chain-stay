@@ -3,10 +3,10 @@ import styled from "styled-components";
 import { AppContext } from "../../App";
 
 const Login = () => {
-    const { account, onClickAccount, disconnectWallet } = useContext(AppContext);
+    const { account, onClickConnect, onClickDisconnect } = useContext(AppContext);
 
     return (
-        <LoginDiv onClick={account ? disconnectWallet : onClickAccount}>
+        <LoginDiv onClick={account ? onClickDisconnect : onClickConnect}>
             <img
                 src={`${process.env.PUBLIC_URL}/assets/icons/profil.svg`}
                 alt="ProfilSvg"
