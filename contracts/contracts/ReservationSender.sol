@@ -167,6 +167,7 @@ contract ReservationSender is OwnerIsCreator {
 
         s_linkToken.approve(address(router), fees);
 
+        IERC20(_token).transferFrom(msg.sender, address(this), _amount);
         IERC20(_token).approve(address(router), _amount);
 
         messageId = router.ccipSend(_destChainSelector, evm2AnyMessage);
@@ -255,6 +256,7 @@ contract ReservationSender is OwnerIsCreator {
         if (fees > address(this).balance)
             revert NotEnoughBalance(address(this).balance, fees);
 
+        IERC20(_token).transferFrom(msg.sender, address(this), _amount);
         IERC20(_token).approve(address(router), _amount);
 
         messageId = router.ccipSend{value: fees}(
