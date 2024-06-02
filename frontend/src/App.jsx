@@ -1,3 +1,8 @@
+import Web3 from 'web3';
+import { ccipSenderAddress } from "./config/sepoliaAddr";
+import { senderABI } from "./config/senderABI";
+import { chainStayHubAddress } from "./config/polygonAddr";
+import { chainStayABI } from "./config/chainStayABI";
 import "./App.css";
 import styled from "styled-components";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -8,19 +13,15 @@ import MyPage from "./pages/MyPage";
 import { createContext, useState, useEffect } from "react";
 import PaymentPage from "./pages/PaymentPage";
 export const AppContext = createContext();
-import Web3 from 'web3';
-import { ccipSenderAddress } from "./config/sepoliaAddr";
-import { senderABI } from "./config/senderABI";
-import { chainStayHubAddress } from "./config/polygonAddr";
-import { chainStayABI } from "./config/chainStayABI";
+
 
 function App() {
     const [account, setAccount] = useState();
     const [isOpen, setIsOpen] = useState(false);
     const [chain, setChain] = useState(0);
     const web3 = new Web3(window.ethereum);
-    const senderContract = new web3.eth.Contract(ccipSenderAddress, senderABI);
-    const chainStayContract = new web3.eth.Contract(chainStayHubAddress, chainStayABI);
+    const senderContract = new web3.eth.Contract(senderABI,ccipSenderAddress);
+    const chainStayContract = new web3.eth.Contract(chainStayABI,chainStayHubAddress);
 
 
     const onClickConnect = async () => {
