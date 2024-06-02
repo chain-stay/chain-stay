@@ -166,6 +166,7 @@ contract ReservationSender is OwnerIsCreator {
         if (fees > s_linkToken.balanceOf(address(this)))
             revert NotEnoughBalance(s_linkToken.balanceOf(address(this)), fees);
 
+        s_linkToken.transferFrom(msg.sender, address(this), fees);
         s_linkToken.approve(address(router), fees);
 
         IERC20(_token).transferFrom(msg.sender, address(this), _amount);

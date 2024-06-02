@@ -7,7 +7,6 @@ import {Client} from "@chainlink/contracts-ccip/src/v0.8/ccip/libraries/Client.s
 import {CCIPReceiver} from "@chainlink/contracts-ccip/src/v0.8/ccip/applications/CCIPReceiver.sol";
 import {IERC20} from "@chainlink/contracts-ccip/src/v0.8/vendor/openzeppelin-solidity/v4.8.3/contracts/token/ERC20/IERC20.sol";
 import {SafeERC20} from "@chainlink/contracts-ccip/src/v0.8/vendor/openzeppelin-solidity/v4.8.3/contracts/token/ERC20/utils/SafeERC20.sol";
-import {ChainStayHub} from "./ChainStayHub.sol";
 import {IERC20Minimal} from "./interfaces/IERC20Minimal.sol";
 
 /// @title This is ccip message receiver in polygon networks. 
@@ -45,16 +44,12 @@ contract ReservationReceiver is CCIPReceiver, OwnerIsCreator {
     // Mapping to keep track of allowlisted senders.
     mapping(address => bool) public allowlistedSenders;
 
-    ChainStayHub public chainStayHub; 
-
     /////////////
     /// utils ///
     /////////////
 
     /// @param _router The address of the router contract.
-    /// @param _chainStayHub The address of the chain-stay hub contract.
-    constructor(address _router, address _chainStayHub) CCIPReceiver(_router) {
-        chainStayHub = ChainStayHub(_chainStayHub);
+    constructor(address _router) CCIPReceiver(_router) {
 
         // add default allowed source chain list
         allowlistedSourceChains[14767482510784806043] = true; // avalanche
@@ -105,31 +100,9 @@ contract ReservationReceiver is CCIPReceiver, OwnerIsCreator {
     )
         internal
         override
-        onlyAllowlisted(
-            any2EvmMessage.sourceChainSelector,
-            abi.decode(any2EvmMessage.sender, (address))
-        ) // Make sure source chain and sender are allowlisted
+        virtual
     {
-
-        ChainStayHub.ReservationRequest memory request = abi.decode(any2EvmMessage.data, (ChainStayHub.ReservationRequest));
-        
-        address token = any2EvmMessage.destTokenAmounts[0].token;
-        uint256 amount = any2EvmMessage.destTokenAmounts[0].amount;
-
-        // approve
-        IERC20Minimal(token).approve(address(chainStayHub), amount);
-
-        // call function for reservation
-        chainStayHub.reserveViaCCIP(request);
-
-        emit MessageReceived(
-            any2EvmMessage.messageId,
-            any2EvmMessage.sourceChainSelector, // fetch the source chain identifier (aka selector)
-            abi.decode(any2EvmMessage.sender, (address)), // abi-decoding of the sender address,
-            abi.decode(any2EvmMessage.data, (string)),
-            token,
-            amount
-        );
+        // implementation is in ChainStayHub contract
     }
 
     receive() external payable {}
