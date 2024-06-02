@@ -4,47 +4,14 @@ import { differenceInDays, parseISO } from "date-fns";
 
 import styled from "styled-components";
 
-const Accommodation = () => {
+const Accommodation = ({
+  checkInDate,
+  checkOutDate,
+  guests,
+  chainLinkFee,
+  totalPrice,
+}) => {
   const isPolygon = true;
-  const [chainLinkFee, setChainlinkFee] = useState(0);
-
-  // user input data
-  const location = useLocation();
-  const [checkInDate, setCheckInDate] = useState("");
-  const [checkOutDate, setCheckOutDate] = useState("");
-  const [guests, setGuests] = useState(1);
-  const [totalPrice, setTotalPrice] = useState(0);
-
-  // Function to remove non-numeric characters
-  const formatDate = (dateString) => {
-    return dateString ? dateString.replace(/\D/g, "") : "";
-  };
-
-  useEffect(() => {
-    // Parse the query parameters from the URL
-    const queryParams = new URLSearchParams(location.search);
-    const formattedCheckInDate = formatDate(queryParams.get("checkInDate"));
-    const formattedCheckOutDate = formatDate(queryParams.get("checkOutDate"));
-
-    setCheckInDate(formattedCheckInDate);
-    setCheckOutDate(formattedCheckOutDate);
-    setGuests(queryParams.get("guests") || 1);
-
-    if (formattedCheckInDate && formattedCheckOutDate) {
-      // Parse dates
-      const checkIn = parseISO(queryParams.get("checkInDate"));
-      const checkOut = parseISO(queryParams.get("checkOutDate"));
-
-      // Calculate the number of days between check-in and check-out
-      const daysDifference = differenceInDays(checkOut, checkIn);
-
-      // Calculate total price
-      const pricePerNight = 3.2;
-      const totalPrice = daysDifference * pricePerNight;
-
-      setTotalPrice(totalPrice);
-    }
-  }, [location.search]);
 
   return (
     <Title>
