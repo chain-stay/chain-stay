@@ -29,12 +29,12 @@ contract ChainStayHub {
     }
 
     mapping(uint256 reservationId => Reservation) public getReservationInfo;
-    mapping(uint256 accomId => uint256[] reservationIds) public getReservationList; //! 고쳐야 함
+    mapping(uint256 accomId => uint256[] reservationIds) public getReservationList;
     uint256 public totalAccommodation;
 
-    mapping(address host => uint256[] accommIds) public getAccommodationInfo; //! 고쳐야 함
+    mapping(address host => uint256[] accommIds) public getAccommodationInfo;
     mapping(uint256 accommId => address host) public getHostInfo;
-    mapping(address guest => uint256[] reservationIds) public getGuestReservationList; //! 고쳐야 함
+    mapping(address guest => uint256[] reservationIds) public getGuestReservationList;
     uint256 public totalReservation;
 
     mapping(uint8 paymentTokenType => address token) public getPaymentToken;
@@ -158,6 +158,5 @@ contract ChainStayHub {
     function getAllGuestReservationList(address guest) public view returns(uint256[] memory) {
         return getGuestReservationList[guest];
     }
-    
 
 }

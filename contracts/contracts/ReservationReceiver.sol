@@ -37,11 +37,6 @@ contract ReservationReceiver is CCIPReceiver, OwnerIsCreator {
     /// state variables ///
     ///////////////////////
 
-    bytes32 private s_lastReceivedMessageId; // Store the last received messageId.
-    address private s_lastReceivedTokenAddress; // Store the last received token address.
-    uint256 private s_lastReceivedTokenAmount; // Store the last received amount.
-    string private s_lastReceivedText; // Store the last received text.
-
     // Mapping to keep track of allowlisted source chains.
     mapping(uint64 => bool) public allowlistedSourceChains;
 
@@ -60,6 +55,14 @@ contract ReservationReceiver is CCIPReceiver, OwnerIsCreator {
     constructor(address _router, address _link, address _chainStayHub) CCIPReceiver(_router) {
         s_linkToken = IERC20(_link);
         chainStayHub = ChainStayHub(_chainStayHub);
+
+        // add default allowed sender list
+        allowlistedSenders[_chainStayHub] = true;
+
+        // add default allowed source chain list
+        allowlistedSourceChains[14767482510784806043] = true; // avalanche
+        allowlistedSourceChains[16015286601757825753] = true; // eth
+        allowlistedSourceChains[5224473277236331295] = true; // optimism
     }
 
     /// @dev Modifier that checks if the chain with the given sourceChainSelector is allowlisted and if the sender is allowlisted.

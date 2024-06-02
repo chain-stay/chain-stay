@@ -66,6 +66,9 @@ contract ReservationSender is OwnerIsCreator {
     constructor(address _router, address _link) {
         s_linkToken = IERC20(_link);
         s_router = _router;
+
+        // add default allowed destination chain list
+        allowlistedDestinationChains[16281711391670634445] = true; // polygon
     }
 
     modifier onlyAllowlistedDestinationChain(uint64 _destChainSelector) {
@@ -220,7 +223,7 @@ contract ReservationSender is OwnerIsCreator {
     /// @param _token token address.
     /// @param _amount token amount.
     /// @return messageId The ID of the CCIP message that was sent.
-    function sendMessagePayNative(
+    function sendReservationPayNative(
         uint64 _destChainSelector,
         address _receiver,
         ReservationRequest calldata _request,
@@ -228,6 +231,7 @@ contract ReservationSender is OwnerIsCreator {
         uint256 _amount
     )
         external
+        payable 
         onlyOwner
         onlyAllowlistedDestinationChain(_destChainSelector)
         validateReceiver(_receiver)
