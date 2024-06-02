@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Accommodation from "../components/PaymentPageComponents/Accommodation";
 import Modal from "../components/Modal";
 import { AppContext } from "../App";
+
 const PaymentPage = () => {
     const { isOpen, setIsOpen } = useContext(AppContext);
     const [selectedPaymentIndex, setSelectedPaymentIndex] = useState(null);
@@ -52,15 +53,20 @@ const PaymentPage = () => {
                             </div>
                         </Payment>
                     ))}
-                    {selectedPaymentIndex !== null ? (
-                        <Link to="/myPage">
-                            <PaymentButton>Proceed to Payment</PaymentButton>
-                        </Link>
-                    ) : (
-                        <PaymentButton onClick={handleSelectButton}>
-                            Proceed to Payment
-                        </PaymentButton>
-                    )}
+                    <ButtonContainer>
+                        {selectedPaymentIndex !== null ? (
+                            <Link to="/myPage">
+                                <PaymentButton>
+                                    Proceed to Payment
+                                </PaymentButton>
+                            </Link>
+                        ) : (
+                            <PaymentButton onClick={handleSelectButton}>
+                                Proceed to Payment
+                            </PaymentButton>
+                        )}
+                        <PaymentButton>다른 버튼</PaymentButton>
+                    </ButtonContainer>
                     {isOpen && (
                         <Modal
                             iconUrl="/assets/icons/error.svg"
@@ -94,10 +100,8 @@ const Divider = styled.div`
     background-color: rgb(204, 204, 204);
     margin: 10px 0;
     align-self: center;
-    /* background-color: #f7f7f7; */
 `;
 const Title = styled.div`
-    /* background-color: #f7f7f799; */
     height: 660px;
     display: flex;
     padding: 60px 170px;
@@ -128,7 +132,6 @@ const SubTitle = styled.div`
 
 const Payment = styled.div`
     height: 132px;
-    /* width: 520px; */
     display: flex;
     padding: 16px;
     align-items: center;
@@ -151,7 +154,6 @@ const Payment = styled.div`
     }
 
     margin-bottom: 60px;
-    /* background-color: red; */
 `;
 
 const IMG = styled.div`
@@ -163,12 +165,18 @@ const IMG = styled.div`
     align-items: flex-start;
     border-radius: 5px;
 `;
+
+const ButtonContainer = styled.div`
+    display: flex;
+    gap: 16px;
+    margin-top: 20px;
+`;
+
 const PaymentButton = styled.button`
     color: #fff;
     font-size: 16px;
     font-weight: 500;
-    line-height: 24px; /* 150% */
-
+    line-height: 24px;
     display: flex;
     width: 240px;
     padding: 12px;
@@ -177,6 +185,11 @@ const PaymentButton = styled.button`
     align-items: center;
     border-radius: 8px;
     background: #000;
-
     cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin: auto;
+    &:hover {
+        background-color: #333;
+        transform: scale(1.05);
+    }
 `;
