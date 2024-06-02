@@ -3,11 +3,11 @@ import styled from "styled-components";
 import { AppContext } from "../../App";
 
 const Login = () => {
-    const { account, onClickAccount, disconnectWallet } =
+    const { account, onClickConnect, onClickDisconnect } =
         useContext(AppContext);
 
     return (
-        <LoginDiv onClick={account ? disconnectWallet : onClickAccount}>
+        <LoginDiv onClick={account ? onClickDisconnect : onClickConnect}>
             <Button>
                 <div className="svg-wrapper">
                     <svg
