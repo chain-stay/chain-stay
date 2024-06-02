@@ -8,7 +8,7 @@ import Modal from "../components/Modal";
 import { AppContext } from "../App";
 
 const PaymentPage = () => {
-  const { isOpen, setIsOpen } = useContext(AppContext);
+  const { isOpen, setIsOpen, senderContract,chainStayContract,chain,account } = useContext(AppContext);
   const [selectedPaymentIndex, setSelectedPaymentIndex] = useState(null);
 
   const isPolygon = true;
