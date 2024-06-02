@@ -1,7 +1,7 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { AppContext } from "../App";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Modal = ({
     iconUrl,
@@ -18,8 +18,11 @@ const Modal = ({
         if (buttonTexts[0] === "Login/ SignUp") {
             await onClickAccount();
         }
-
         setIsOpen(false);
+
+        if (buttonTexts[0] === "Go to myPage") {
+            setIsOpen(true);
+        }
     };
 
     const handleCancelClick = async () => {

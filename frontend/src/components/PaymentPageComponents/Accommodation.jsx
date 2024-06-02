@@ -4,11 +4,16 @@ const Accommodation = () => {
         <Title>
             <Text>Accommodation Details</Text>
             <SubBox>
-                <PreIMG>이미지 넣는 부분</PreIMG>
+                <PreIMG>
+                    <img
+                        src={`${process.env.PUBLIC_URL}/assets/images/beach/Beach1.png`}
+                        alt="RightArrow"
+                    />
+                </PreIMG>
                 <Box>
                     <SubTitle>Your Trip</SubTitle>
-                    <p>Luxury Villa</p>
-                    <p>$200 per night</p>
+                    <p>Beachfront Paradise</p>
+                    <p>₩750,206 per night</p>
                     <p> ㅤ</p>
                     <BoldText>
                         <p> Dates</p>
@@ -37,7 +42,6 @@ const Accommodation = () => {
 };
 export default Accommodation;
 const Title = styled.div`
-    background-color: #f7f7f799;
     height: 660px;
     display: flex;
     padding: 60px 170px;
@@ -104,6 +108,8 @@ const PreIMG = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
+    /* background-image: url("assets/images/beach/Beach1.png"); */
 `;
 
 const BoldText = styled.div`

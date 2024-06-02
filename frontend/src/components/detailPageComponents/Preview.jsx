@@ -3,22 +3,47 @@ import styled from "styled-components";
 const Preview = () => {
     return (
         <PreviewContainer>
-            <TitleText>Luxury Villa in Paradise</TitleText>
+            <TitleText>Capri private suite on the sea</TitleText>
             <Text>Perfect getaway for a memorable stay</Text>
             <Description>
                 <Box>⭐5-star rating</Box>
                 <Box>Superhost</Box>
             </Description>
             <PreIMG>
-                <IMGBOX></IMGBOX>
+                <IMGBOX>
+                    <img
+                        src={`${process.env.PUBLIC_URL}/assets/images/beach/Beach1.png`}
+                        alt="Beach1"
+                    />
+                </IMGBOX>
                 <Grid>
                     <GridContainer>
-                        <IMGBOX></IMGBOX>
-                        <IMGBOX></IMGBOX>
+                        <IMGBOX>
+                            <img
+                                src={`${process.env.PUBLIC_URL}/assets/images/beach/Beach2.png`}
+                                alt="Beach2"
+                            />
+                        </IMGBOX>
+                        <IMGBOX>
+                            <img
+                                src={`${process.env.PUBLIC_URL}/assets/images/beach/Beach3.png`}
+                                alt="Beach3"
+                            />
+                        </IMGBOX>
                     </GridContainer>
                     <GridContainer>
-                        <IMGBOX></IMGBOX>
-                        <IMGBOX></IMGBOX>
+                        <IMGBOX>
+                            <img
+                                src={`${process.env.PUBLIC_URL}/assets/images/beach/Beach4.png`}
+                                alt="Beach4"
+                            />
+                        </IMGBOX>
+                        <IMGBOX>
+                            <img
+                                src={`${process.env.PUBLIC_URL}/assets/images/beach/Beach5.png`}
+                                alt="Beach5"
+                            />
+                        </IMGBOX>
                     </GridContainer>
                 </Grid>
             </PreIMG>
@@ -62,7 +87,6 @@ const Description = styled.div`
 const Box = styled.div`
     font-size: 20px;
     padding: 2px 4px;
-    /* gap: 8px; */
     border-radius: 2px;
     border: 0.5px solid rgba(0, 0, 0, 0.1);
     background: rgba(217, 217, 217, 0.5);
@@ -71,7 +95,7 @@ const Box = styled.div`
 const PreIMG = styled.div`
     display: flex;
     margin: 60px 0px;
-    height: 504px;
+    height: 600px;
     gap: 8px;
 `;
 
@@ -83,6 +107,14 @@ const IMGBOX = styled.div`
     align-self: stretch;
     border-radius: 16px;
     background: rgba(217, 217, 217, 0.5);
+    overflow: hidden;
+
+    img {
+        width: 100%;
+        height: 100%;
+        max-height: 100%;
+        object-fit: cover;
+    }
 `;
 
 const Grid = styled.div`
@@ -94,6 +126,7 @@ const Grid = styled.div`
     align-self: stretch;
     border-radius: 16px;
     gap: 8px;
+    overflow: hidden;
 `;
 
 const GridContainer = styled.div`
