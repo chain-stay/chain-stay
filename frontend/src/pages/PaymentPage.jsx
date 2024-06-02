@@ -149,7 +149,7 @@ const PaymentPage = () => {
               onClick={() => handlePaymentClick(index)}
             >
               <IMG>
-                <img src={item.imgSrc} alt={item.altText} />
+                <StyledImg src={item.imgSrc} alt={item.altText} />
               </IMG>
               <div>
                 <SubTitle>{item.title}</SubTitle>
@@ -269,7 +269,7 @@ const IMG = styled.div`
 const StyledImg = styled.img`
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover; /* 다른 옵션: contain, fill, scale-down 등 */
 `;
 
 const ButtonContainer = styled.div`
