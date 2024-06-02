@@ -1,17 +1,24 @@
 import { useContext, useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { differenceInDays, parseISO } from "date-fns";
-
 import styled from "styled-components";
 import Accommodation from "../components/PaymentPageComponents/Accommodation";
 import Modal from "../components/Modal";
 import { AppContext } from "../App";
+import Web3 from "web3";
 
 const PaymentPage = () => {
-  const { isOpen, setIsOpen, senderContract,chainStayContract,chain,account } = useContext(AppContext);
+  const {
+    isOpen,
+    setIsOpen,
+    chainStayContract,
+    polygonUsdcContract,
+    chain,
+    account,
+  } = useContext(AppContext);
   const [selectedPaymentIndex, setSelectedPaymentIndex] = useState(null);
 
-  const isPolygon = true;
+  const isPolygon = chain === 80002;
   const [chainLinkFee, setChainlinkFee] = useState(0);
 
   // user input data
@@ -67,20 +74,62 @@ const PaymentPage = () => {
     },
   ];
 
+  const onClickReserve = async () => {
+    try {
+      const web3 = new Web3(Web3.givenProvider);
+      const totalPriceInWei = web3.utils.toWei(totalPrice.toString(), "mwei"); // Converts to microether
+
+      //   try {
+      //     await polygonUsdcContract.methods
+      //       .approve(chainStayContract, totalPriceInWei)
+      //       .send({ from: account });
+      //     console.log("Token approved successfully");
+      //   } catch (error) {
+      //     console.error("Token approval failed", error);
+      //   }
+
+      const reservationRequest = [
+        account,
+        1,
+        checkInDate,
+        checkOutDate,
+        guests,
+        totalPriceInWei,
+        1,
+      ];
+
+      const tx = await chainStayContract.methods
+        .reserve(reservationRequest)
+        .send({
+          from: account,
+          gas: 3000000, // Adjust gas limit as needed
+        });
+
+      console.log("Transaction successful:", tx);
+    } catch (error) {
+      console.error("Transaction failed:", error);
+      return false;
+    }
+    return true;
+  };
+
   const handlePaymentClick = (index) => {
     setSelectedPaymentIndex(index === selectedPaymentIndex ? null : index);
   };
+
   const handleSelectButton = () => {
     setIsOpen(true);
   };
 
   return (
     <Container>
-      checkInDate={checkInDate}
-      checkOutDate={checkOutDate}
-      guests={guests}
-      chainLinkFee={chainLinkFee}
-      totalPrice={totalPrice}
+      <Accommodation
+        checkInDate={checkInDate}
+        checkOutDate={checkOutDate}
+        guests={guests}
+        chainLinkFee={chainLinkFee}
+        totalPrice={totalPrice}
+      />
       <Divider />
       <Title>
         <Text>Choose Payment Method</Text>
@@ -102,15 +151,14 @@ const PaymentPage = () => {
           ))}
           <ButtonContainer>
             {selectedPaymentIndex !== null ? (
-              <Link to="/myPage">
-                <PaymentButton>Proceed to Payment</PaymentButton>
-              </Link>
+              <PaymentButton onClick={() => onClickReserve()}>
+                Proceed to Payment
+              </PaymentButton>
             ) : (
               <PaymentButton onClick={handleSelectButton}>
                 Proceed to Payment
               </PaymentButton>
             )}
-            <PaymentButton>다른 버튼</PaymentButton>
           </ButtonContainer>
           {isOpen && (
             <Modal
